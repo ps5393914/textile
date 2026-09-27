@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart | Elegance Fusion</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  
+  <style>
+    .cart-layout {
+      display: flex;
+      gap: 30px;
+      margin-top: 2rem;
+    }
+    
+    .cart-items {
+      flex: 2;
+    }
+    
+    .cart-item {
+      display: flex;
+      gap: 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      background: white;
+    }
+    
+    .cart-item img {
+      width: 100px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    
+    .cart-item-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .cart-item-title {
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+    
+    .cart-item-meta {
+      font-size: 0.9rem;
+      color: #555;
+    }
+    
+    .cart-item-price {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .qty-btn {
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--border-color);
+      background: white;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .remove-btn {
+      color: var(--danger-color);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 0.9rem;
+    }
+    
+    .cart-summary {
+      flex: 1;
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      height: fit-content;
+    }
+    
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    
+    .summary-total {
+      border-top: 1px solid var(--border-color);
+      padding-top: 15px;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    
+    .empty-cart {
+      text-align: center;
+      padding: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .cart-layout { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">Elegance<span>Fusion</span></div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+      </div>
+      <div class="nav-icons">
+        <a href="cart.html" class="active"><i class="fas fa-shopping-cart"></i><span class="badge" id="cart-badge" style="display:none;">0</span></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-2" style="min-height: 60vh;">
+    <h1 class="section-title">Shopping Cart</h1>
+    
+    <div id="cart-container" class="cart-layout">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCart();
+    });
+    
+    function renderCart() {
+      const container = document.getElementById('cart-container');
+      
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="empty-cart" style="width: 100%;">
+            <i class="fas fa-shopping-bag" style="font-size: 4rem; color: #ccc; margin-bottom: 1rem;"></i>
+            <h2>Your cart is empty</h2>
+            <p style="margin-bottom: 2rem;">Looks like you haven't added anything to your cart yet.</p>
+            <a href="shop.html" class="btn btn-primary">Continue Shopping</a>
+          </div>
+        `;
+        return;
+      }
+      
+      let itemsHtml = '<div class="cart-items">';
+      let subTotal = 0;
+      let totalDiscount = 0;
+      
+      cart.forEach((item, index) => {
+        const product = products.find(p => p.id === item.id);
+        if(!product) return;
+        
+        const itemPrice = product.discountedPrice * item.quantity;
+        const originalTotal = product.originalPrice * item.quantity;
+        
+        subTotal += originalTotal;
+        totalDiscount += (originalTotal - itemPrice);
+        
+        const formattedPrice = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(itemPrice);
+        
+        itemsHtml += `
+          <div class="cart-item">
+            <img src="${product.image}" alt="${product.name}">
+            <div class="cart-item-details">
+              <div>
+                <div class="cart-item-title">${product.name}</div>
+                <div class="cart-item-meta">Size: ${item.size} | Color: ${item.color}</div>
+              </div>
+              <div class="cart-item-price">${formattedPrice}</div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="qty-controls">
+                  <button class="qty-btn" onclick="updateQty(${index}, -1)">-</button>
+                  <span>${item.quantity}</span>
+                  <button class="qty-btn" onclick="updateQty(${index}, 1)">+</button>
+                </div>
+                <button class="remove-btn" onclick="removeItem(${index})"><i class="fas fa-trash"></i> Remove</button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      
+      itemsHtml += '</div>';
+      
+      const grandTotal = subTotal - totalDiscount;
+      const formatCurrency = (val) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+      
+      const summaryHtml = `
+        <div class="cart-summary">
+          <h3 style="font-family: var(--font-main); margin-bottom: 1.5rem;">Order Summary</h3>
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>${formatCurrency(subTotal)}</span>
+          </div>
+          <div class="summary-row" style="color: var(--success-color);">
+            <span>Discount</span>
+            <span>-${formatCurrency(totalDiscount)}</span>
+          </div>
+          <div class="summary-row">
+            <span>Delivery Charges</span>
+            <span style="color: var(--success-color);">${grandTotal > 999 ? 'Free' : formatCurrency(99)}</span>
+          </div>
+          <div class="summary-row summary-total">
+            <span>Total Amount</span>
+            <span>${formatCurrency(grandTotal > 999 ? grandTotal : grandTotal + 99)}</span>
+          </div>
+          <p style="color: var(--success-color); font-size: 0.9rem; margin: 10px 0;">You will save ${formatCurrency(totalDiscount)} on this order!</p>
+          <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
+        </div>
+      `;
+      
+      container.innerHTML = itemsHtml + summaryHtml;
+    }
+    
+    function updateQty(index, change) {
+      if(cart[index].quantity + change > 0) {
+        cart[index].quantity += change;
+        saveState();
+        renderCart();
+      }
+    }
+    
+    function removeItem(index) {
+      cart.splice(index, 1);
+      saveState();
+      renderCart();
+    }
+  </script>
+</body>
+</html>

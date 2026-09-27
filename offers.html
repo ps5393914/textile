@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offers & Deals | Elegance Fusion</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  
+  <style>
+    .offers-header {
+      background-color: var(--primary-color);
+      color: white;
+      text-align: center;
+      padding: 4rem 0;
+    }
+    
+    .offers-header h1 {
+      color: var(--accent-gold);
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .coupons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 4rem 0;
+    }
+    
+    .coupon-card {
+      border: 2px dashed var(--accent-gold);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      background-color: var(--light-gray);
+      position: relative;
+    }
+    
+    .coupon-card::before, .coupon-card::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+    
+    .coupon-card::before {
+      left: -15px;
+      border-right: 2px dashed var(--accent-gold);
+    }
+    
+    .coupon-card::after {
+      right: -15px;
+      border-left: 2px dashed var(--accent-gold);
+    }
+    
+    .discount-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .coupon-code {
+      display: inline-block;
+      background: var(--primary-color);
+      color: var(--accent-gold);
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      border-radius: 4px;
+      margin: 1.5rem 0;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">Elegance<span>Fusion</span></div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shop.html?category=Men">Men</a>
+        <a href="shop.html?category=Women">Women</a>
+        <a href="shop.html?category=Kids">Kids</a>
+        <a href="offers.html" class="active">Offers</a>
+        <a href="tailoring.html">Tailoring</a>
+        <a href="shop.html">Shop</a>
+      </div>
+      <div class="nav-icons">
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i><span class="badge" id="cart-badge" style="display:none;">0</span></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="offers-header">
+    <div class="container">
+      <h1>Exclusive Deals</h1>
+      <p style="font-size: 1.2rem;">Grab the best discounts on premium fashion before they expire!</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="coupons-grid">
+      <div class="coupon-card">
+        <h3 style="font-family: var(--font-main);">Welcome Offer</h3>
+        <div class="discount-value">FLAT ₹300 OFF</div>
+        <p>On your first order above ₹1499</p>
+        <div class="coupon-code">WELCOME300</div>
+        <button class="btn btn-primary" onclick="copyCode('WELCOME300')">Copy Code</button>
+      </div>
+      
+      <div class="coupon-card">
+        <h3 style="font-family: var(--font-main);">Weekend Sale</h3>
+        <div class="discount-value">EXTRA 10% OFF</div>
+        <p>Valid on all Men's & Women's Wear</p>
+        <div class="coupon-code">WEEKEND10</div>
+        <button class="btn btn-primary" onclick="copyCode('WEEKEND10')">Copy Code</button>
+      </div>
+      
+      <div class="coupon-card">
+        <h3 style="font-family: var(--font-main);">Festive Special</h3>
+        <div class="discount-value">BUY 2 GET 1 FREE</div>
+        <p>Applicable on Ethnic Wear & Sarees</p>
+        <div class="coupon-code">FESTIVE21</div>
+        <button class="btn btn-primary" onclick="copyCode('FESTIVE21')">Copy Code</button>
+      </div>
+    </div>
+    
+    <h2 class="section-title">Clearance Sale - Up to 70% OFF</h2>
+    <div class="text-center" style="margin-bottom: 4rem;">
+      <a href="shop.html?sort=discount" class="btn btn-primary" style="padding: 15px 30px; font-size: 1.2rem;">Shop Clearance Now</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container" style="text-align: center;">
+      <div class="logo" style="color: white; margin-bottom: 1rem;">Elegance<span style="color:var(--accent-gold);">Fusion</span></div>
+      <p>&copy; 2026 Elegance Fusion. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    function copyCode(code) {
+      navigator.clipboard.writeText(code).then(() => {
+        alert("Coupon code " + code + " copied to clipboard!");
+      });
+    }
+  </script>
+</body>
+</html>

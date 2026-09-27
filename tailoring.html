@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Tailoring Service | Elegance Fusion</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  
+  <style>
+    .tailoring-hero {
+      background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('assets/images/tailoring_service_1790498559497.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+      padding: 6rem 2rem;
+    }
+    
+    .tailoring-hero h1 {
+      color: var(--accent-gold);
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .tailoring-hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 4rem 0;
+    }
+    
+    .service-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      transition: var(--transition);
+    }
+    
+    .service-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-5px);
+    }
+    
+    .service-card i {
+      font-size: 3rem;
+      color: var(--accent-gold);
+      margin-bottom: 1rem;
+    }
+    
+    .booking-section {
+      background: var(--light-gray);
+      padding: 4rem 0;
+    }
+    
+    .booking-form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-family: inherit;
+    }
+    
+    @media (max-width:768px) {
+      .tailoring-hero h1 { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">Elegance<span>Fusion</span></div>
+      <div class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shop.html?category=Men">Men</a>
+        <a href="shop.html?category=Women">Women</a>
+        <a href="shop.html?category=Kids">Kids</a>
+        <a href="shop.html?new=true">New Arrivals</a>
+        <a href="offers.html">Offers</a>
+        <a href="tailoring.html" class="active">Tailoring</a>
+        <a href="shop.html">Shop</a>
+      </div>
+      <div class="nav-icons">
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i><span class="badge" id="cart-badge" style="display:none;">0</span></a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="tailoring-hero">
+    <div class="container">
+      <h1>Custom Fit Excellence</h1>
+      <p>Experience precision, perfect fitting, and premium craftsmanship with Elegance Fusion Tailoring Services.</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <h2 class="section-title">Our Services</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <i class="fas fa-tshirt"></i>
+        <h3>Custom Stitching</h3>
+        <p>Blouses, Kurtis, Suits, and more crafted precisely to your measurements.</p>
+        <div style="margin-top: 1rem; font-weight: bold; color: var(--primary-color);">Starts at ₹799</div>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-cut"></i>
+        <h3>Alterations</h3>
+        <p>Get that perfect fit. We alter pants, shirts, dresses, and sarees.</p>
+        <div style="margin-top: 1rem; font-weight: bold; color: var(--primary-color);">Starts at ₹199</div>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-truck"></i>
+        <h3>Doorstep Pickup & Delivery</h3>
+        <p>We collect the fabric from your home and deliver the stitched garment.</p>
+        <div style="margin-top: 1rem; font-weight: bold; color: var(--primary-color);">Free for orders above ₹1500</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="booking-section" id="book">
+    <div class="container">
+      <h2 class="section-title" style="margin-top:0;">Book an Appointment</h2>
+      
+      <div class="booking-form">
+        <form onsubmit="handleBooking(event)">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label>Mobile Number</label>
+            <input type="tel" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label>Select Service</label>
+            <select class="form-control" required>
+              <option value="">-- Choose a service --</option>
+              <option>Saree Blouse Stitching</option>
+              <option>Dress/Kurti Stitching</option>
+              <option>Pant Alteration</option>
+              <option>Shirt Alteration</option>
+              <option>Custom Fitting (Other)</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>Preferred Date for Pickup/Visit</label>
+            <input type="date" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label>Additional Notes / Measurements</label>
+            <textarea class="form-control" rows="4" placeholder="Any specific requirements..."></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Confirm Booking</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Placeholder -->
+  <footer class="footer">
+    <div class="container" style="text-align: center;">
+      <div class="logo" style="color: white; margin-bottom: 1rem;">Elegance<span style="color:var(--accent-gold);">Fusion</span></div>
+      <p>&copy; 2026 Elegance Fusion. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    function handleBooking(e) {
+      e.preventDefault();
+      alert("Tailoring request submitted successfully! Our representative will contact you shortly.");
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>

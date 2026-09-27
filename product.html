@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details | Elegance Fusion</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  
+  <style>
+    .product-details-container {
+      display: flex;
+      gap: 40px;
+      margin-top: 2rem;
+    }
+    
+    .product-gallery {
+      flex: 1;
+    }
+    
+    .main-image {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    
+    .thumbnail-list {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .thumbnail-list img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    
+    .thumbnail-list img.active {
+      border-color: var(--accent-gold);
+    }
+    
+    .product-info-details {
+      flex: 1;
+    }
+    
+    .pd-title {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .pd-rating {
+      color: var(--accent-gold);
+      margin-bottom: 1rem;
+    }
+    
+    .pd-price {
+      margin-bottom: 1.5rem;
+    }
+    
+    .pd-discounted {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    
+    .pd-original {
+      text-decoration: line-through;
+      color: #999;
+      font-size: 1.2rem;
+      margin-left: 10px;
+    }
+    
+    .pd-discount-badge {
+      background-color: var(--danger-color);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      margin-left: 10px;
+      vertical-align: super;
+    }
+    
+    .selector-label {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    
+    .size-selector, .color-selector {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+    
+    .selector-btn {
+      padding: 8px 16px;
+      border: 1px solid var(--border-color);
+      background: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    
+    .selector-btn.active {
+      border-color: var(--primary-color);
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .pd-actions {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 2rem;
+    }
+    
+    .pd-actions .btn {
+      flex: 1;
+      padding: 15px;
+      font-size: 1.1rem;
+    }
+    
+    .pd-description {
+      margin-bottom: 2rem;
+      border-top: 1px solid var(--border-color);
+      padding-top: 1.5rem;
+    }
+    
+    .pd-meta {
+      list-style: disc;
+      margin-left: 20px;
+      color: #555;
+    }
+    
+    @media (max-width: 768px) {
+      .product-details-container { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">Elegance<span>Fusion</span></div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+      </div>
+      <div class="nav-icons">
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i><span class="badge" id="cart-badge" style="display:none;">0</span></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" id="product-container" style="min-height: 70vh;">
+    <!-- Rendered by JS -->
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = parseInt(urlParams.get('id'));
+      const product = products.find(p => p.id === productId);
+      
+      if (!product) {
+        document.getElementById('product-container').innerHTML = '<h2>Product not found.</h2>';
+        return;
+      }
+      
+      let selectedSize = product.sizes[0];
+      let selectedColor = product.colors[0];
+      
+      const formattedDiscounted = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(product.discountedPrice);
+      const formattedOriginal = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(product.originalPrice);
+
+      const html = `
+        <div class="product-details-container">
+          <div class="product-gallery">
+            <img src="${product.image}" alt="${product.name}" class="main-image">
+            <div class="thumbnail-list">
+              <img src="${product.image}" class="active">
+            </div>
+          </div>
+          
+          <div class="product-info-details">
+            <div style="color: #777; margin-bottom: 10px; text-transform: uppercase; font-size: 0.9rem;">
+              ${product.category} > ${product.subcategory}
+            </div>
+            <h1 class="pd-title">${product.name}</h1>
+            <div class="pd-rating">
+              ${getStarRating(product.rating)} 
+              <span style="color: #777; margin-left: 10px;">${product.rating} (${product.reviewsCount} reviews)</span>
+            </div>
+            
+            <div class="pd-price">
+              <span class="pd-discounted">${formattedDiscounted}</span>
+              <span class="pd-original">${formattedOriginal}</span>
+              <span class="pd-discount-badge">${product.discountPercentage}% OFF</span>
+            </div>
+            
+            <span class="selector-label">Select Size <a href="#" style="font-size:0.8rem; font-weight:normal; margin-left:10px; color:blue;">Size Guide</a></span>
+            <div class="size-selector" id="size-selector">
+              ${product.sizes.map(size => `<div class="selector-btn ${size === selectedSize ? 'active' : ''}" onclick="selectSize(this, '${size}')">${size}</div>`).join('')}
+            </div>
+            
+            <span class="selector-label">Select Color</span>
+            <div class="color-selector" id="color-selector">
+              ${product.colors.map(color => `<div class="selector-btn ${color === selectedColor ? 'active' : ''}" onclick="selectColor(this, '${color}')">${color}</div>`).join('')}
+            </div>
+            
+            <div class="pd-actions">
+              <button class="btn btn-outline" onclick="addToCartHandler()"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+              <button class="btn btn-primary" onclick="buyNowHandler()"><i class="fas fa-bolt"></i> Buy Now</button>
+              <button class="btn btn-outline" style="flex: 0 0 auto; width: 55px;" onclick="toggleWishlist(${product.id}, this)">
+                <i class="${isInWishlist(product.id) ? 'fas' : 'far'} fa-heart" style="color: ${isInWishlist(product.id) ? 'var(--danger-color)' : 'inherit'}"></i>
+              </button>
+            </div>
+            
+            <div class="pd-description">
+              <h3 style="font-family: var(--font-main);">Product Details</h3>
+              <p style="margin-bottom: 1rem;">${product.description}</p>
+              <ul class="pd-meta">
+                <li><strong>Material:</strong> ${product.material}</li>
+                <li><strong>Delivery:</strong> ${product.deliveryInfo}</li>
+                <li><strong>Return Policy:</strong> 30 Days easy returns</li>
+                <li>100% Original Products</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('product-container').innerHTML = html;
+      
+      window.selectSize = function(btn, size) {
+        document.querySelectorAll('#size-selector .selector-btn').forEach(el => el.classList.remove('active'));
+        btn.classList.add('active');
+        selectedSize = size;
+      }
+      
+      window.selectColor = function(btn, color) {
+        document.querySelectorAll('#color-selector .selector-btn').forEach(el => el.classList.remove('active'));
+        btn.classList.add('active');
+        selectedColor = color;
+      }
+      
+      window.addToCartHandler = function() {
+        addToCart(product.id, 1, selectedSize, selectedColor);
+      }
+      
+      window.buyNowHandler = function() {
+        addToCart(product.id, 1, selectedSize, selectedColor);
+        window.location.href = 'cart.html';
+      }
+    });
+  </script>
+</body>
+</html>
